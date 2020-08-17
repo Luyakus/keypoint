@@ -9,7 +9,7 @@
 #import "ZQBaseModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
-
+static NSString * const ZQStatusDBLoginStatusChanged = @"ZQStatusDBLoginStatusChanged";
 @interface ZQStatusDB : ZQBaseModel
 @property (nonatomic, class) BOOL isLogin;
 @property (nonatomic, class, nullable) NSString *signCode;

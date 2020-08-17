@@ -13,7 +13,7 @@
     return @{
         @"url":@"webUrl",
         @"title":@"webName",
-        @"identifier":@"id"
+        @"identifier":@[@"id", @"webId"]
     };
 }
 @end

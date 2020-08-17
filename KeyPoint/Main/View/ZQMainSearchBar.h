@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) UITextField *searchTf;
 @property (nonatomic, weak) UIButton *searchBtn;
 @property (nonatomic, weak) UIButton *avatarBtn;
+@property (nonatomic, readonly) MASConstraint *addBtnLeftOffsetConstraint;
 @end
 
 NS_ASSUME_NONNULL_END

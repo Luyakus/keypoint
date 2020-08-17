@@ -36,6 +36,15 @@
 		226D9E42249CF24800D6E6EE /* ZQSimpleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 226D9E41249CF24800D6E6EE /* ZQSimpleRequest.m */; };
 		226D9E46249D241300D6E6EE /* ZQSearchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 226D9E45249D241300D6E6EE /* ZQSearchResultController.m */; };
 		226D9E4A249D24A000D6E6EE /* ZQCollectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 226D9E49249D24A000D6E6EE /* ZQCollectRequest.m */; };
+		22909C9B24E9667800A3AC4B /* ZQCommendAddRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 22909C9A24E9667800A3AC4B /* ZQCommendAddRequest.m */; };
+		22909C9F24E96AF200A3AC4B /* ZQCollectSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22909C9E24E96AF200A3AC4B /* ZQCollectSectionView.m */; };
+		22909CA524E975A600A3AC4B /* ZQEditSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22909CA424E975A600A3AC4B /* ZQEditSectionController.m */; };
+		22909CA824E975C400A3AC4B /* ZQEditWebsiteController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22909CA724E975C400A3AC4B /* ZQEditWebsiteController.m */; };
+		22E9817624D6AFE900F30A9F /* ZQUserInfoRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E9817524D6AFE900F30A9F /* ZQUserInfoRequest.m */; };
+		22E9817924E00CC500F30A9F /* ZQSectionWebsiteModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E9817824E00CC500F30A9F /* ZQSectionWebsiteModel.m */; };
+		22E9817C24E00F4900F30A9F /* ZQCommendSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E9817B24E00F4900F30A9F /* ZQCommendSectionView.m */; };
+		22E9817F24E013E800F30A9F /* ZQCollecViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E9817E24E013E800F30A9F /* ZQCollecViewModel.m */; };
+		22E9818224E0276400F30A9F /* ZQBaseViewModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 22E9818124E0276400F30A9F /* ZQBaseViewModel.m */; };
 		D166C19E6AB79A72C1FD1C1F /* Pods_KeyPoint.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9AB37ED0789905BB828AAA3 /* Pods_KeyPoint.framework */; };
 /* End PBXBuildFile section */
 
@@ -98,6 +107,24 @@
 		226D9E45249D241300D6E6EE /* ZQSearchResultController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQSearchResultController.m; sourceTree = "<group>"; };
 		226D9E48249D24A000D6E6EE /* ZQCollectRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQCollectRequest.h; sourceTree = "<group>"; };
 		226D9E49249D24A000D6E6EE /* ZQCollectRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQCollectRequest.m; sourceTree = "<group>"; };
+		22909C9924E9667800A3AC4B /* ZQCommendAddRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQCommendAddRequest.h; sourceTree = "<group>"; };
+		22909C9A24E9667800A3AC4B /* ZQCommendAddRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQCommendAddRequest.m; sourceTree = "<group>"; };
+		22909C9D24E96AF200A3AC4B /* ZQCollectSectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQCollectSectionView.h; sourceTree = "<group>"; };
+		22909C9E24E96AF200A3AC4B /* ZQCollectSectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQCollectSectionView.m; sourceTree = "<group>"; };
+		22909CA024E96B6F00A3AC4B /* ZQCommendSectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZQCommendSectionView.h; sourceTree = "<group>"; };
+		22909CA324E975A600A3AC4B /* ZQEditSectionController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQEditSectionController.h; sourceTree = "<group>"; };
+		22909CA424E975A600A3AC4B /* ZQEditSectionController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQEditSectionController.m; sourceTree = "<group>"; };
+		22909CA624E975C400A3AC4B /* ZQEditWebsiteController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQEditWebsiteController.h; sourceTree = "<group>"; };
+		22909CA724E975C400A3AC4B /* ZQEditWebsiteController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQEditWebsiteController.m; sourceTree = "<group>"; };
+		22E9817424D6AFE900F30A9F /* ZQUserInfoRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQUserInfoRequest.h; sourceTree = "<group>"; };
+		22E9817524D6AFE900F30A9F /* ZQUserInfoRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQUserInfoRequest.m; sourceTree = "<group>"; };
+		22E9817724E00CC500F30A9F /* ZQSectionWebsiteModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQSectionWebsiteModel.h; sourceTree = "<group>"; };
+		22E9817824E00CC500F30A9F /* ZQSectionWebsiteModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQSectionWebsiteModel.m; sourceTree = "<group>"; };
+		22E9817B24E00F4900F30A9F /* ZQCommendSectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQCommendSectionView.m; sourceTree = "<group>"; };
+		22E9817D24E013E800F30A9F /* ZQCollecViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQCollecViewModel.h; sourceTree = "<group>"; };
+		22E9817E24E013E800F30A9F /* ZQCollecViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQCollecViewModel.m; sourceTree = "<group>"; };
+		22E9818024E0276400F30A9F /* ZQBaseViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQBaseViewModel.h; sourceTree = "<group>"; };
+		22E9818124E0276400F30A9F /* ZQBaseViewModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQBaseViewModel.m; sourceTree = "<group>"; };
 		4A88C609864F4696563E583B /* Pods-KeyPoint.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyPoint.release.xcconfig"; path = "Target Support Files/Pods-KeyPoint/Pods-KeyPoint.release.xcconfig"; sourceTree = "<group>"; };
 		B16B7F6002491F61CC971E37 /* Pods-KeyPoint.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-KeyPoint.debug.xcconfig"; path = "Target Support Files/Pods-KeyPoint/Pods-KeyPoint.debug.xcconfig"; sourceTree = "<group>"; };
 		E9AB37ED0789905BB828AAA3 /* Pods_KeyPoint.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_KeyPoint.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,6 +163,7 @@
 		226D9DD32491060300D6E6EE /* KeyPoint */ = {
 			isa = PBXGroup;
 			children = (
+				22909CA224E9757300A3AC4B /* Edit */,
 				226D9E47249D247600D6E6EE /* Request */,
 				226D9E3C249CF17A00D6E6EE /* View */,
 				226D9E43249D23EB00D6E6EE /* SearchResult */,
@@ -180,6 +208,8 @@
 				226D9DFC249109EE00D6E6EE /* ZQUserInfoModel.m */,
 				226D9E0A24910DA300D6E6EE /* ZQBaseModel.h */,
 				226D9E0B24910DA300D6E6EE /* ZQBaseModel.m */,
+				22E9817724E00CC500F30A9F /* ZQSectionWebsiteModel.h */,
+				22E9817824E00CC500F30A9F /* ZQSectionWebsiteModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -223,6 +253,8 @@
 			children = (
 				226D9E0E2496221900D6E6EE /* ZQBaseController.h */,
 				226D9E0F2496221900D6E6EE /* ZQBaseController.m */,
+				22E9818024E0276400F30A9F /* ZQBaseViewModel.h */,
+				22E9818124E0276400F30A9F /* ZQBaseViewModel.m */,
 				226D9E19249903B400D6E6EE /* ZQBaseRequest.h */,
 				226D9E1A249903B400D6E6EE /* ZQBaseRequest.m */,
 				226D9E40249CF24800D6E6EE /* ZQSimpleRequest.h */,
@@ -236,6 +268,8 @@
 			children = (
 				226D9E13249901EB00D6E6EE /* ZQUserInfoLayoutModel.h */,
 				226D9E14249901EB00D6E6EE /* ZQUserInfoLayoutModel.m */,
+				22E9817424D6AFE900F30A9F /* ZQUserInfoRequest.h */,
+				22E9817524D6AFE900F30A9F /* ZQUserInfoRequest.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -283,8 +317,11 @@
 		226D9E34249C6F8100D6E6EE /* Collect */ = {
 			isa = PBXGroup;
 			children = (
+				22909C9C24E96AC400A3AC4B /* View */,
 				226D9E39249C6FDB00D6E6EE /* ZQCollectController.h */,
 				226D9E3A249C6FDB00D6E6EE /* ZQCollectController.m */,
+				22E9817D24E013E800F30A9F /* ZQCollecViewModel.h */,
+				22E9817E24E013E800F30A9F /* ZQCollecViewModel.m */,
 			);
 			path = Collect;
 			sourceTree = "<group>";
@@ -292,6 +329,8 @@
 		226D9E35249C6F8A00D6E6EE /* Commend */ = {
 			isa = PBXGroup;
 			children = (
+				22909CA124E96B7600A3AC4B /* View */,
+				22909C9824E9665400A3AC4B /* Model */,
 				226D9E36249C6FC900D6E6EE /* ZQCommendController.h */,
 				226D9E37249C6FC900D6E6EE /* ZQCommendController.m */,
 			);
@@ -323,6 +362,44 @@
 				226D9E49249D24A000D6E6EE /* ZQCollectRequest.m */,
 			);
 			path = Request;
+			sourceTree = "<group>";
+		};
+		22909C9824E9665400A3AC4B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				22909C9924E9667800A3AC4B /* ZQCommendAddRequest.h */,
+				22909C9A24E9667800A3AC4B /* ZQCommendAddRequest.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		22909C9C24E96AC400A3AC4B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				22909C9D24E96AF200A3AC4B /* ZQCollectSectionView.h */,
+				22909C9E24E96AF200A3AC4B /* ZQCollectSectionView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		22909CA124E96B7600A3AC4B /* View */ = {
+			isa = PBXGroup;
+			children = (
+				22909CA024E96B6F00A3AC4B /* ZQCommendSectionView.h */,
+				22E9817B24E00F4900F30A9F /* ZQCommendSectionView.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		22909CA224E9757300A3AC4B /* Edit */ = {
+			isa = PBXGroup;
+			children = (
+				22909CA324E975A600A3AC4B /* ZQEditSectionController.h */,
+				22909CA424E975A600A3AC4B /* ZQEditSectionController.m */,
+				22909CA624E975C400A3AC4B /* ZQEditWebsiteController.h */,
+				22909CA724E975C400A3AC4B /* ZQEditWebsiteController.m */,
+			);
+			path = Edit;
 			sourceTree = "<group>";
 		};
 		F7A67695E63AF6BAAC87F2D1 /* Pods */ = {
@@ -475,10 +552,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				226D9E3F249CF19B00D6E6EE /* ZQWebsiteCell.m in Sources */,
+				22E9817624D6AFE900F30A9F /* ZQUserInfoRequest.m in Sources */,
 				226D9E2F249C66A300D6E6EE /* ZQMainBottomToolBar.m in Sources */,
 				226D9E0824910B2700D6E6EE /* ZQUserInfoItemCell.m in Sources */,
 				226D9E38249C6FC900D6E6EE /* ZQCommendController.m in Sources */,
 				226D9E1B249903B400D6E6EE /* ZQBaseRequest.m in Sources */,
+				22909C9F24E96AF200A3AC4B /* ZQCollectSectionView.m in Sources */,
+				22909C9B24E9667800A3AC4B /* ZQCommendAddRequest.m in Sources */,
 				226D9E0524910ACE00D6E6EE /* ZQUserInfoAvatarCell.m in Sources */,
 				226D9E2C249C634600D6E6EE /* ZQMainControllerViewModel.m in Sources */,
 				226D9DF4249107A600D6E6EE /* ZQWebsiteModel.m in Sources */,
@@ -486,20 +566,26 @@
 				226D9DEF249106C400D6E6EE /* ZQMainController.m in Sources */,
 				226D9E0124910A5200D6E6EE /* ZQUserInfoController.m in Sources */,
 				226D9DF8249108B000D6E6EE /* ZQMainSearchBar.m in Sources */,
+				22E9817C24E00F4900F30A9F /* ZQCommendSectionView.m in Sources */,
 				226D9DFD249109EE00D6E6EE /* ZQUserInfoModel.m in Sources */,
 				226D9E15249901EB00D6E6EE /* ZQUserInfoLayoutModel.m in Sources */,
 				226D9E182499024400D6E6EE /* ZQUserInfoViewModel.m in Sources */,
 				226D9E0C24910DA300D6E6EE /* ZQBaseModel.m in Sources */,
 				226D9E42249CF24800D6E6EE /* ZQSimpleRequest.m in Sources */,
 				226D9E33249C6DE100D6E6EE /* ZQWebsiteDeatilController.m in Sources */,
+				22E9817F24E013E800F30A9F /* ZQCollecViewModel.m in Sources */,
 				226D9DD62491060300D6E6EE /* AppDelegate.m in Sources */,
+				22909CA824E975C400A3AC4B /* ZQEditWebsiteController.m in Sources */,
+				22E9817924E00CC500F30A9F /* ZQSectionWebsiteModel.m in Sources */,
 				226D9E232499C63100D6E6EE /* ZQStatusDB.m in Sources */,
+				22909CA524E975A600A3AC4B /* ZQEditSectionController.m in Sources */,
 				226D9E4A249D24A000D6E6EE /* ZQCollectRequest.m in Sources */,
 				226D9E1F249906ED00D6E6EE /* ZQLoginController.m in Sources */,
 				226D9E26249A4FDE00D6E6EE /* ZQAuthcodeRequest.m in Sources */,
 				226D9E102496221900D6E6EE /* ZQBaseController.m in Sources */,
 				226D9E46249D241300D6E6EE /* ZQSearchResultController.m in Sources */,
 				226D9DE72491060500D6E6EE /* main.m in Sources */,
+				22E9818224E0276400F30A9F /* ZQBaseViewModel.m in Sources */,
 				226D9E3B249C6FDB00D6E6EE /* ZQCollectController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -633,6 +719,7 @@
 			baseConfigurationReference = B16B7F6002491F61CC971E37 /* Pods-KeyPoint.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BBH3U98L88;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -642,8 +729,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = zhangqianit.com.www.KeyPoint;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhangqianit.KeyPoint;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -653,6 +741,7 @@
 			baseConfigurationReference = 4A88C609864F4696563E583B /* Pods-KeyPoint.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BBH3U98L88;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -662,8 +751,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = zhangqianit.com.www.KeyPoint;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zhangqianit.KeyPoint;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;

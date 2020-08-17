@@ -8,7 +8,7 @@
 
 #import "ZQMainSearchBar.h"
 @interface ZQMainSearchBar()
-
+@property (nonatomic, strong) MASConstraint *addBtnLeftOffsetConstraint;
 @end
 @implementation ZQMainSearchBar
 
@@ -36,7 +36,7 @@
     [searchBarHolderView addSubview:self.addBtn];
     [self.addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(searchBarHolderView);
-        make.left.equalTo(searchBarHolderView).offset(15);
+       self.addBtnLeftOffsetConstraint = make.left.equalTo(searchBarHolderView).offset(15);
         make.size.mas_equalTo(CGSizeMake(35, 35));
     }];
     

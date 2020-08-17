@@ -15,10 +15,13 @@ typedef NS_ENUM(NSUInteger, ZQWebsiteState) {
     ZQWebsiteModelRecommend,
 };
 
+
+
 @interface ZQWebsiteModel : ZQBaseModel
 @property (nonatomic, copy) NSString *title;
 @property (nonatomic, copy) NSString *url;
 @property (nonatomic, copy) NSString *identifier;
+@property (nonatomic, copy) NSString *sectionTitle;
 //@property (nonatomic, assign) ZQWebsiteState state;
 @end
 

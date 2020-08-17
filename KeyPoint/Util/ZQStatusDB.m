@@ -14,7 +14,11 @@
 }
 
 + (void)setIsLogin:(BOOL)isLogin {
+    if (!isLogin) {
+        [self setSignCode:nil];
+    }
     [NSUserDefaults.standardUserDefaults setBool:isLogin forKey:@"isLogin"];
+    [NSNotificationCenter.defaultCenter postNotificationName:ZQStatusDBLoginStatusChanged object:nil];
 }
 
 

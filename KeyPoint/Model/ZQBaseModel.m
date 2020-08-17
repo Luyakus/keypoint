@@ -26,4 +26,7 @@
     return [self modelIsEqual:object];
 }
 
+- (NSString *)description {
+    return [self modelToJSONObject];
+}
 @end

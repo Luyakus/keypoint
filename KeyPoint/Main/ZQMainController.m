@@ -35,14 +35,16 @@
     [self bind];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    [self.searchBar.avatarBtn setImage:[UIImage imageNamed:ZQStatusDB.isLogin ? @"avatar_blue" : @"avatar"] forState:UIControlStateNormal];
-             [self.collectVC update];
-}
 #pragma mark - 业务逻辑
 - (void)bind {
     @weakify(self)
+    
+    [[NSNotificationCenter.defaultCenter rac_addObserverForName:ZQStatusDBLoginStatusChanged object:nil] subscribeNext:^(NSNotification * _Nullable x) {
+        @strongify(self)
+        [self.searchBar.avatarBtn setImage:[UIImage imageNamed:ZQStatusDB.isLogin ? @"avatar_blue" : @"avatar"] forState:UIControlStateNormal];
+        [self.collectVC update];
+    }];
+    
     [[self.searchBar.avatarBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
         @strongify(self)
         if (ZQStatusDB.isLogin) {
@@ -56,15 +58,18 @@
     
     [[self.searchBar.searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id  _Nullable x) {
         @strongify(self)
-        if (!ZQStatusDB.isLogin) {
-            [self toast:@"请先登录"];
-            return;
-        }
         
         if (self.searchBar.searchTf.text.length == 0) {
             [self toast:@"搜索内容不能为空"];
             return;
         }
+        
+        if (!ZQStatusDB.isLogin) {
+            ZQLoginController *login = [ZQLoginController new];
+            [self.navigationController pushViewController:login animated:YES];
+            return;
+        }
+        
         ZQSearchResultController *vc = [[ZQSearchResultController alloc] initWithKeyword:self.searchBar.searchTf.text];
         [self.navigationController pushViewController:vc animated:YES];
     }];
@@ -76,48 +81,26 @@
             return;
         }
                
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入网站名称和网站地址" preferredStyle:UIAlertControllerStyleAlert];
-        
-        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"网站名称";
-        }];
-        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.placeholder = @"网站地址";
-        }];
-        
-        UIAlertAction *a = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            if (alert.textFields.firstObject.text.length == 0 ||
-                alert.textFields.lastObject.text.length == 0) {
-                [self toast:@"请输入完整的网站名称和地址"];
-                return;
-            }
-        
-            ZQCollectRequest *r = [ZQCollectRequest requestWithWebsiteTitle:alert.textFields.firstObject.text url:alert.textFields.lastObject.text];
-            [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
-                if (r.resultCode == 1) {
-                    [self toast:@"添加成功"];
-                    [self.collectVC update];
-                } else {
-                    [self toast:r.errorMessage];
-                }
-            } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
-                [self toast:@"网络错误"];
-            }];
-        }];
-        UIAlertAction *b = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        }];
-        
-        [alert addAction:a]; [alert addAction:b];
-        [self presentViewController:alert animated:YES completion:nil];
+        ZQBaseController *vc = [ZQBaseController new];
+        QMUINavigationController *nav = [[QMUINavigationController alloc] initWithRootViewController:vc];
+        vc.title = @"123";
+        vc.view.backgroundColor = [UIColor whiteColor];
+        [self presentViewController:nav animated:YES completion:nil];
     }];
     
     [[[self.toolBar.leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] merge:[self.toolBar.rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]] subscribeNext:^(id  _Nullable x) {
+        
         @strongify(self)
-        if (x == self.toolBar.leftBtn) [self.collectVC update];
+        if (!ZQStatusDB.isLogin && x == self.toolBar.rightBtn) {
+            ZQLoginController *login = [ZQLoginController new];
+            [self.navigationController pushViewController:login animated:YES];
+        }
+        
+        if (x == self.toolBar.rightBtn) [self.collectVC update];
         [UIView animateWithDuration:0.3 animations:^{
             self.contentLeft.offset = x == self.toolBar.leftBtn ? 0 : -self.view.width;
             [self.searchBar.addBtn mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.left.equalTo(self.searchBar).offset(x == self.toolBar.leftBtn ? 15 : -30);
+                make.left.equalTo(self.searchBar).offset(x == self.toolBar.rightBtn ? 15 : -30);
             }];
             [self.view layoutIfNeeded];
         }];
@@ -139,7 +122,8 @@
         make.top.equalTo(self.view).offset([UIApplication sharedApplication].statusBarFrame.size.height);
         make.height.mas_equalTo(55);
     }];
-    
+    self.searchBar.addBtnLeftOffsetConstraint.offset(-30);
+    [self.searchBar.avatarBtn setImage:[UIImage imageNamed:ZQStatusDB.isLogin ? @"avatar_blue" : @"avatar"] forState:UIControlStateNormal];
     [self.view addSubview:self.toolBar];
     [self.toolBar mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(self.view);
@@ -159,17 +143,18 @@
     ZQCollectController *collect = [ZQCollectController new];
     self.collectVC = collect;
     ZQCommendController *commmend = [ZQCommendController new];
-    [self addChildViewController:collect];
-    [self addChildViewController:commmend];
     
-    [self.contentHolder addSubview:collect.view];
-    [collect.view mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self addChildViewController:commmend];
+    [self addChildViewController:collect];
+    
+    [self.contentHolder addSubview:commmend.view];
+    [commmend.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.equalTo(self.contentHolder);
         make.right.equalTo(self.contentHolder.mas_centerX);
     }];
     
-    [self.contentHolder addSubview:commmend.view];
-    [commmend.view mas_makeConstraints:^(MASConstraintMaker *make) {
+    [self.contentHolder addSubview:collect.view];
+    [collect.view mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.right.bottom.equalTo(self.contentHolder);
         make.left.equalTo(self.contentHolder.mas_centerX);
     }];
@@ -190,8 +175,8 @@
 - (ZQMainBottomToolBar *)toolBar {
     return _toolBar ?: ({
         ZQMainBottomToolBar *t = [ZQMainBottomToolBar new];
-        [t.leftBtn setTitle:@"收藏" forState:UIControlStateNormal];
-        [t.rightBtn setTitle:@"推荐" forState:UIControlStateNormal];
+        [t.leftBtn setTitle:@"推荐" forState:UIControlStateNormal];
+        [t.rightBtn setTitle:@"收藏" forState:UIControlStateNormal];
         _toolBar = t;
         t;
     });

@@ -6,25 +6,42 @@
 //  Copyright © 2020 Sam. All rights reserved.
 //
 // M
+#import "ZQSectionWebsiteModel.h"
 #import "ZQWebsiteModel.h"
+
 // V
+#import "ZQCollectSectionView.h"
 #import "ZQWebsiteCell.h"
 
 // C
 #import "ZQCollectController.h"
+#import "ZQEditSectionController.h"
+
+// VM
+#import "ZQCollecViewModel.h"
+
+// R
+#import "ZQCollectRequest.h"
 
 @interface ZQCollectController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, weak) UITableView *tb;
-@property (nonatomic, strong) NSArray <ZQWebsiteModel *> *websites;
-
+@property (nonatomic, strong) NSArray <ZQSectionWebsiteModel *> *sections;
+@property (nonatomic, strong) ZQCollecViewModel *viewModel;
 @end
 
 @implementation ZQCollectController
 
+- (instancetype)init {
+    if (self = [super init]) {
+        self.viewModel = [[ZQCollecViewModel alloc] init];
+    }
+    return self;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self ui];
-    [self update];
+    [self bind];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -33,23 +50,51 @@
 }
 
 #pragma mark - 业务逻辑
+- (void)bind {
+    [RACObserve(self.viewModel, sections) subscribeNext:^(NSArray <ZQSectionWebsiteModel *> *x) {
+        self.sections = x;
+        [self.tb reloadData];
+    }];
+    [self update];
+}
+
 - (void)update {
-    if (!ZQStatusDB.isLogin) {
-        self.emptyView.textLabel.text = @"请先登录";
-        [self showEmptyView];
-        return;
-    } else {
-        [self hideEmptyView];
-    }
     [self.tb.mj_header beginRefreshing];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.websites.count;
+
+#pragma mark - 协议
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    return self.sections.count;
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    ZQSectionWebsiteModel *websiteSection = self.sections[section];
+    NSArray <ZQWebsiteModel *> *websites = websiteSection.websites;
+    return websites.count;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
+    ZQCollectSectionView *v = [tableView dequeueReusableHeaderFooterViewWithIdentifier:ZQCollectSectionView.className];
+    ZQSectionWebsiteModel *websiteSection = self.sections[section];
+    [v bind:websiteSection];
+    @weakify(self);
+    v.editBlock = ^(ZQSectionWebsiteModel *model) {
+        ZQEditSectionController *vc = [[ZQEditSectionController alloc] initWithSection:websiteSection editCompletionBlock:^{
+            @strongify(self);
+            [self refresh];
+        }];
+        [self.navigationController pushViewController:vc animated:YES];
+    };
+    return v;
+}
+
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    ZQWebsiteModel *model = self.websites[indexPath.row];
+    ZQSectionWebsiteModel *websiteSection = self.sections[indexPath.section];
+    NSArray <ZQWebsiteModel *> *websites = websiteSection.websites;
+    ZQWebsiteModel *model = websites[indexPath.row];
     ZQWebsiteCell *cell = [tableView dequeueReusableCellWithIdentifier:NSStringFromClass(ZQWebsiteCell.class)];
     [cell bind:model];
     return cell;
@@ -57,8 +102,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ZQWebsiteModel *model = self.websites[indexPath.row];
-
+    ZQSectionWebsiteModel *websiteSection = self.sections[indexPath.section];
+    NSArray <ZQWebsiteModel *> *websites = websiteSection.websites;
+    ZQWebsiteModel *model = websites[indexPath.row];
+    
     UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"" message:@"提示" preferredStyle:UIAlertControllerStyleActionSheet];
     UIAlertAction *a = [UIAlertAction actionWithTitle:@"复制网站名称" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
         UIPasteboard.generalPasteboard.string = model.title;
@@ -83,31 +130,79 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    ZQWebsiteModel *model = self.websites[indexPath.row];
-    ZQSimpleGetRequest *r = [ZQSimpleGetRequest new];
-    r.url = @"Collectphone/delCollect";
-    r.arguments = @{
-        @"id":model.identifier?:@"",
-        @"sign":ZQStatusDB.signCode
-    };
-    [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
-        if (r.resultCode == 1) {
-            [self toast:@"已删除"];
-            [self update];
-        } else {
-            [self toast:r.errorMessage];
-        }
-    } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
-        [self toast:@"网络错误"];
+    ZQSectionWebsiteModel *websiteSection = self.sections[indexPath.section];
+    NSArray <ZQWebsiteModel *> *websites = websiteSection.websites;
+    ZQWebsiteModel *model = websites[indexPath.row];
+    [self.viewModel deleteCollect:model];
+}
+
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    ZQSectionWebsiteModel *websiteSection = self.sections[indexPath.section];
+    NSArray <ZQWebsiteModel *> *websites = websiteSection.websites;
+    ZQWebsiteModel *model = websites[indexPath.row];
+        
+    UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"修改" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入网站名称和网站地址" preferredStyle:UIAlertControllerStyleAlert];
+        
+        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.text = model.title;
+            textField.placeholder = @"网站名称";
+        }];
+        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.text = model.url;
+            textField.placeholder = @"网站地址";
+        }];
+        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+            textField.text = model.sectionTitle;
+            textField.placeholder = @"网站分类";
+        }];
+        UIAlertAction *a = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            if (alert.textFields.firstObject.text.length == 0 ||
+                alert.textFields[1].text.length == 0 ||
+                alert.textFields.lastObject.text.length == 0) {
+                [self toast:@"请输入完整的网站信息"];
+                return;
+            }
+        
+            ZQCollectRequest *r = [ZQCollectRequest requestWithWebsiteTitle:alert.textFields.firstObject.text url:alert.textFields.lastObject.text];
+            [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
+                if (r.resultCode == 1) {
+                    [self toast:@"添加成功"];
+                    [self update];
+                } else {
+                    [self toast:r.errorMessage];
+                }
+            } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
+                [self toast:@"网络错误"];
+            }];
+        }];
+        UIAlertAction *b = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
+        }];
+        
+        [alert addAction:a]; [alert addAction:b];
+        [self presentViewController:alert animated:YES completion:nil];
     }];
+    edit.backgroundColor = [UIColor systemBlueColor];
+    
+    UITableViewRowAction *delete = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDefault title:@"删除" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
+        [self.viewModel deleteCollect:model];
+    }];
+    
+    return @[delete, edit];
 }
 
-
-- (nullable NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return @"删除";
+#pragma mark - overw;rite
+- (void)refresh {
+    [self.viewModel update];
 }
 
+- (MJRefreshHeader *)innerRefreshHeader {
+    return self.tb.mj_header;
+}
 
+- (ZQBaseViewModel *)innerViewModel {
+    return (ZQBaseViewModel *)self.viewModel;
+}
 
 #pragma mark - 准备工作
 - (void)ui {
@@ -118,27 +213,6 @@
     }];
 }
 
-- (void)data {
-    ZQSimplePostRequest *r = [ZQSimplePostRequest new];
-    r.arguments = @{
-        @"sign":ZQStatusDB.signCode?:@""
-    };
-    r.url = @"Collectphone/collectList";
-    [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
-        [self.tb.mj_header endRefreshing];
-        if (r.resultCode == 1) {
-            NSArray *arr = [NSArray modelArrayWithClass:ZQWebsiteModel.class json:r.responseJSONObject[@"list"]];
-            self.websites = arr;
-            [self.tb reloadData];
-        } else {
-            [self toast:r.errorMessage];
-        }
-    } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
-        [self toast:@"网络错误"];
-        [self.tb.mj_header endRefreshing];
-    }];
-}
-
 
 - (UITableView *)tb {
     return _tb ?: ({
@@ -146,8 +220,12 @@
         t.delegate = self;
         t.dataSource = self;
         t.estimatedRowHeight = 40;
-        t.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(data)];
+        t.rowHeight = UITableViewAutomaticDimension;
+        t.estimatedSectionHeaderHeight =  40;
+        t.sectionHeaderHeight = UITableViewAutomaticDimension;
+        t.mj_header = [[MJRefreshNormalHeader alloc] init];
         [t registerClass:[ZQWebsiteCell class] forCellReuseIdentifier:NSStringFromClass(ZQWebsiteCell.class)];
+        [t registerClass:[ZQCollectSectionView class] forHeaderFooterViewReuseIdentifier:NSStringFromClass([ZQCollectSectionView class])];
         _tb = t;
         t;
     });

@@ -69,7 +69,11 @@
         
         { // 倒计时
             self.authcodeBtn.userInteractionEnabled = NO;
+#if DEBUG
             __block NSInteger time = 5;
+#else
+            __block NSInteger time = 60;
+#endif
             self.dispose = [[RACSignal interval:1 onScheduler:RACScheduler.mainThreadScheduler] subscribeNext:^(NSDate * _Nullable x) {
                 [self.authcodeBtn setTitle:[NSString stringWithFormat:@"%lds",(long)time] forState:UIControlStateNormal];
                 time --;
@@ -111,6 +115,18 @@
 - (void)ui {
     self.title = @"登录";
     
+    UIImageView *avatar = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"user_avatar"]];
+    avatar.layer.cornerRadius = 50;
+    avatar.layer.masksToBounds = YES;
+    avatar.layer.borderColor = [UIColor colorWithRGB:0x1296db].CGColor;
+    avatar.layer.borderWidth = 2;
+    [self.view addSubview:avatar];
+    [avatar mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(self.view);
+        make.size.mas_equalTo(CGSizeMake(100, 100));
+        make.top.equalTo(self.view).offset(150);
+    }];
+    
     UIView *userNameHolder = [UIView new];
     userNameHolder.qmui_borderPosition = QMUIViewBorderPositionBottom;
     userNameHolder.qmui_borderLocation = QMUIViewBorderLocationOutside;
@@ -118,11 +134,12 @@
     userNameHolder.qmui_borderColor = [UIColor colorWithRGB:0x1296db];
     [self.view addSubview:userNameHolder];
     [userNameHolder mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.view).offset(80);
+        make.top.equalTo(avatar).offset(100);
         make.left.equalTo(self.view).offset(15);
         make.right.equalTo(self.view).offset(-15);
         make.height.mas_equalTo(60);
     }];
+    
     
     [userNameHolder addSubview:self.usernameTf];
     [self.usernameTf mas_makeConstraints:^(MASConstraintMaker *make) {

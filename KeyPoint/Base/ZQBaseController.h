@@ -7,7 +7,7 @@
 //
 
 #import <QMUIKit/QMUIKit.h>
-
+#import "ZQBaseViewModel.h"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZQBaseController : QMUICommonViewController
@@ -16,6 +16,13 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)hideLoading;
 - (void)showLoadingAndHideAfterDelay:(NSTimeInterval)seconds;
 
+// overwrite
+- (ZQBaseViewModel *)innerViewModel;
+- (MJRefreshFooter *)innerRefreshFooter;
+- (MJRefreshHeader *)innerRefreshHeader;
+
+- (void)loadMore;
+- (void)refresh;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -33,7 +33,8 @@
         [self.url mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.title.mas_right).offset(15);
             make.right.equalTo(self.contentView).offset(-15);
-            make.top.bottom.equalTo(self.contentView);
+            make.top.equalTo(self.contentView).offset(15);
+            make.bottom.equalTo(self.contentView).offset(-15);
         }];
         
     }
@@ -50,7 +51,6 @@
         UILabel *l = [UILabel new];
         l.font = [UIFont systemFontOfSize:14];
         l.numberOfLines = 0;
-
         l.textColor = [UIColor colorWithRGB:0x666666];
         _title = l;
         l;

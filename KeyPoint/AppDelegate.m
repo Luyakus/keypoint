@@ -8,6 +8,18 @@
 
 #import "AppDelegate.h"
 #import "ZQMainController.h"
+
+@interface Foo : NSObject
+
+@end
+
+@implementation Foo
+
+- (void)dealloc {
+    NSLog(@"delloc----------");
+}
+
+@end
 @interface AppDelegate ()
 
 @end
@@ -23,6 +35,7 @@
     w.rootViewController = nav;
     self.window = w;
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 

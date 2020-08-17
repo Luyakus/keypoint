@@ -6,7 +6,7 @@
 //  Copyright © 2020 Sam. All rights reserved.
 //
 // M
-
+#import "ZQUserInfoRequest.h"
 // V
 #import "ZQUserInfoAvatarCell.h"
 #import "ZQUserInfoItemCell.h"
@@ -32,11 +32,7 @@
 }
 #pragma mark - 业务逻辑
 - (void)bind {
-    ZQSimpleGetRequest *r = [ZQSimpleGetRequest new];
-    r.url = @"Collectphone/Userinfo";
-    r.arguments = @{
-        @"sign":ZQStatusDB.signCode?:@""
-    };
+    ZQUserInfoRequest *r = [ZQUserInfoRequest new];
     NSLog(@"%@", ZQStatusDB.signCode);
     [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
         if (r.resultCode == 1) {
@@ -83,8 +79,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    if (indexPath.row == 1) {
-        UIPasteboard.generalPasteboard.string = self.sign;
+    if (indexPath.row == 1 && self.sign.length > 0) {
+        NSString *url = [NSString  stringWithFormat:@"https://tvtvc.com?sign=%@", self.sign];
+        UIPasteboard.generalPasteboard.string = url;
         [self toast:@"已复制"];
     }
 }
