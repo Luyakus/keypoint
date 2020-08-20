@@ -28,8 +28,57 @@
     [self ui];
 }
 
+#pragma mark - 业务逻辑
+
+- (void)confirm {
+    if (self.sectionTitleTf.text.length == 0) {
+        [self toast:@"请输入分类名称"];
+        return;
+    }
+    
+    @weakify(self)
+    ZQSimplePostRequest *r = [ZQSimplePostRequest new];
+    r.url = self.section.sectionId.length == 0 ? @"Type/addType" : @"Type/upType";
+    r.arguments = ({
+        NSDictionary *dic = nil;
+        if (self.section.sectionId.length == 0) {
+            dic = @{
+                @"sign":ZQStatusDB.signCode?:@"",
+                @"typeName":self.sectionTitleTf.text
+            };
+        } else {
+            dic = @{
+                @"id":self.section.sectionId,
+                @"typeName":self.sectionTitleTf.text
+            };
+        }
+        dic;
+    });
+    [self showLoading];
+    [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
+        @strongify(self)
+        [self hideLoading];
+        if (r.resultCode != 1) {
+            [self toast:r.errorMessage];
+        }
+        if (self.editCompletionBlock) {
+            self.editCompletionBlock();
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
+        [self hideLoading];
+        [self toast:@"网络错误"];
+        if (self.editCompletionBlock) {
+            self.editCompletionBlock();
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
+}
+
+
+#pragma mark - 准备工作
 - (void)ui {
-    self.title = @"编辑分类";
+    self.title = self.section.sectionId.length == 0 ? @"添加分类" : @"编辑分类";
     
     UIView *sectionTitleHolder = [UIView new];
     sectionTitleHolder.qmui_borderPosition = QMUIViewBorderPositionBottom;
@@ -72,6 +121,7 @@
         b.backgroundColor = [UIColor colorWithRGB:0x1296db];
         [b setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [b setTitle:@"确定" forState:UIControlStateNormal];
+        [b addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
         _confirmBtn = b;
         b;
     });
@@ -80,6 +130,7 @@
 - (UITextField *)sectionTitleTf {
     return _sectionTitleTf ?: ({
         UITextField *t = [[UITextField alloc] initWithFrame:CGRectZero];
+        t.placeholder = @"请输入网站分类";
         _sectionTitleTf = t;
         t;
     });

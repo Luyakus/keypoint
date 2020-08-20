@@ -18,6 +18,8 @@
 #import "ZQCommendController.h"
 #import "ZQCollectController.h"
 #import "ZQSearchResultController.h"
+#import "ZQEditSectionController.h"
+#import "ZQEditWebsiteController.h"
 
 @interface ZQMainController ()
 @property (nonatomic, weak) ZQMainSearchBar *searchBar;
@@ -42,7 +44,6 @@
     [[NSNotificationCenter.defaultCenter rac_addObserverForName:ZQStatusDBLoginStatusChanged object:nil] subscribeNext:^(NSNotification * _Nullable x) {
         @strongify(self)
         [self.searchBar.avatarBtn setImage:[UIImage imageNamed:ZQStatusDB.isLogin ? @"avatar_blue" : @"avatar"] forState:UIControlStateNormal];
-        [self.collectVC update];
     }];
     
     [[self.searchBar.avatarBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
@@ -75,17 +76,33 @@
     }];
     
     [[self.searchBar.addBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
-        
+        @strongify(self)
         if (!ZQStatusDB.isLogin) {
             [self toast:@"请先登录"];
             return;
         }
-               
-        ZQBaseController *vc = [ZQBaseController new];
-        QMUINavigationController *nav = [[QMUINavigationController alloc] initWithRootViewController:vc];
-        vc.title = @"123";
-        vc.view.backgroundColor = [UIColor whiteColor];
-        [self presentViewController:nav animated:YES completion:nil];
+        
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertAction *a = [UIAlertAction actionWithTitle:@"添加网站" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
+            ZQEditWebsiteController *vc = [ZQEditWebsiteController new];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        
+        UIAlertAction *b = [UIAlertAction actionWithTitle:@"添加分类" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
+            ZQSectionWebsiteModel *newSection = [ZQSectionWebsiteModel new];
+            ZQEditSectionController *vc = [[ZQEditSectionController alloc] initWithSection:newSection editCompletionBlock:^{
+                [self.collectVC update];
+            }];
+            [self.navigationController pushViewController:vc animated:YES];
+        }];
+        
+        UIAlertAction *c = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(__kindof UIAlertAction * _Nonnull action) {
+        }];
+        
+        [vc addAction:a];
+        [vc addAction:b];
+        [vc addAction:c];
+        [self presentViewController:vc animated:YES completion:nil];
     }];
     
     [[[self.toolBar.leftBtn rac_signalForControlEvents:UIControlEventTouchUpInside] merge:[self.toolBar.rightBtn rac_signalForControlEvents:UIControlEventTouchUpInside]] subscribeNext:^(id  _Nullable x) {

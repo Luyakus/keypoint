@@ -29,7 +29,7 @@
 - (void)ui {
     [self.contentView addSubview:self.title];
     [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(15, 8, 15, 8));
+        make.edges.equalTo(self.contentView).insets(UIEdgeInsetsMake(15, 15, 15, 15));
     }];
 }
 
@@ -37,7 +37,7 @@
 - (UILabel *)title {
     return _title ?: ({
         UILabel *l = [UILabel new];
-        l.font = [UIFont systemFontOfSize:14];
+        l.font = [UIFont systemFontOfSize:15];
         l.numberOfLines = 0;
 
         l.textColor = [UIColor colorWithRGB:0x333333];

@@ -33,16 +33,15 @@
 - (void)ui {
     [self.contentView addSubview:self.editBtn];
     [self.editBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(3);
-        make.bottom.equalTo(self.contentView).offset(-3);
-        make.right.equalTo(self.contentView).offset(-8);
-        make.width.equalTo(self.editBtn.mas_height);
+        make.centerY.equalTo(self.contentView);
+        make.size.mas_equalTo(CGSizeMake(25, 25));
+        make.right.equalTo(self.contentView).offset(-15);
     }];
     [self.contentView addSubview:self.title];
     [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.contentView).offset(15);
         make.bottom.equalTo(self.contentView).offset(-15);
-        make.left.equalTo(self.contentView).offset(8);
+        make.left.equalTo(self.contentView).offset(15);
         make.right.equalTo(self.editBtn.mas_left).offset(-15);
     }];
     @weakify(self)
@@ -68,7 +67,7 @@
 - (UILabel *)title {
     return _title ?: ({
         UILabel *l = [UILabel new];
-        l.font = [UIFont systemFontOfSize:14];
+        l.font = [UIFont systemFontOfSize:15];
         l.numberOfLines = 0;
         l.textColor = [UIColor colorWithRGB:0x333333];
         _title = l;

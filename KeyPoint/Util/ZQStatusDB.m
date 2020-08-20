@@ -18,7 +18,9 @@
         [self setSignCode:nil];
     }
     [NSUserDefaults.standardUserDefaults setBool:isLogin forKey:@"isLogin"];
-    [NSNotificationCenter.defaultCenter postNotificationName:ZQStatusDBLoginStatusChanged object:nil];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [NSNotificationCenter.defaultCenter postNotificationName:ZQStatusDBLoginStatusChanged object:nil];
+    });
 }
 
 

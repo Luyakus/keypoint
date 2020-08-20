@@ -44,13 +44,14 @@
     [self bind];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    
-}
-
 #pragma mark - 业务逻辑
 - (void)bind {
+    @weakify(self)
+    [[NSNotificationCenter.defaultCenter rac_addObserverForName:ZQStatusDBLoginStatusChanged object:nil] subscribeNext:^(NSNotification * _Nullable x) {
+        @strongify(self)
+        [self refresh];
+    }];
+      
     [RACObserve(self.viewModel, sections) subscribeNext:^(NSArray <ZQSectionWebsiteModel *> *x) {
         self.sections = x;
         [self.tb reloadData];
@@ -59,7 +60,7 @@
 }
 
 - (void)update {
-    [self.tb.mj_header beginRefreshing];
+    [self refresh];
 }
 
 
@@ -191,7 +192,7 @@
     return @[delete, edit];
 }
 
-#pragma mark - overw;rite
+#pragma mark - overwrite
 - (void)refresh {
     [self.viewModel update];
 }

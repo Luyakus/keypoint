@@ -7,11 +7,12 @@
 //
 
 #import "ZQBaseController.h"
+#import "ZQSectionWebsiteModel.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZQEditWebsiteController : ZQBaseController
-
+- (instancetype)initWithSections:(NSArray <ZQSectionWebsiteModel *> *)sections webSite:(ZQWebsiteModel *)website editCompletionBlock:(void(^)(void))block;
 @end
 
 NS_ASSUME_NONNULL_END

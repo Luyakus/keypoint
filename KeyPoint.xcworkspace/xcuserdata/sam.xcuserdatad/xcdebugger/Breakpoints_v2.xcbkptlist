@@ -66,47 +66,47 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "EFBC3DA7-0073-4EEF-B1FB-65F9F1E1EE85"
+            uuid = "0DE8E960-DA05-4D67-A63C-BAE6C3C23A2A"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "KeyPoint/Collect/ZQCollecViewModel.m"
+            filePath = "KeyPoint/Base/ZQBaseController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "-update"
+            startingLineNumber = "75"
+            endingLineNumber = "75"
+            landmarkName = "-zqBind"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "EFBC3DA7-0073-4EEF-B1FB-65F9F1E1EE85 - 246706ac09b25cf"
+                  uuid = "0DE8E960-DA05-4D67-A63C-BAE6C3C23A2A - 5ecb793547fb2f70"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__27-[ZQCollecViewModel update]_block_invoke"
+                  symbolName = "__26-[ZQBaseController zqBind]_block_invoke.51"
                   moduleName = "KeyPoint"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sam/Desktop/%E9%A1%B9%E7%9B%AE/KeyPoint/KeyPoint/Collect/ZQCollecViewModel.m"
+                  urlString = "file:///Users/sam/Desktop/%E9%A1%B9%E7%9B%AE/KeyPoint/KeyPoint/Base/ZQBaseController.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "724">
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "19">
                </Location>
                <Location
-                  uuid = "EFBC3DA7-0073-4EEF-B1FB-65F9F1E1EE85 - 246706ac09b25cf"
+                  uuid = "0DE8E960-DA05-4D67-A63C-BAE6C3C23A2A - 22db41f85e1120c"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "__27-[ZQCollecViewModel update]_block_invoke"
+                  symbolName = "__26-[ZQBaseController zqBind]_block_invoke_2.52"
                   moduleName = "KeyPoint"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sam/Desktop/%E9%A1%B9%E7%9B%AE/KeyPoint/KeyPoint/Collect/ZQCollecViewModel.m"
+                  urlString = "file:///Users/sam/Desktop/%E9%A1%B9%E7%9B%AE/KeyPoint/KeyPoint/Base/ZQBaseController.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "34"
-                  endingLineNumber = "34"
-                  offsetFromSymbolStart = "772">
+                  startingLineNumber = "75"
+                  endingLineNumber = "75"
+                  offsetFromSymbolStart = "16">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -114,16 +114,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "0E6F932F-2FCD-4EA2-88A6-41CDF720E003"
+            uuid = "835C06D9-F005-4354-9D13-0AE36D907925"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "KeyPoint/Collect/ZQCollecViewModel.m"
+            filePath = "KeyPoint/Collect/ZQCollectController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
-            landmarkName = "-update"
+            startingLineNumber = "52"
+            endingLineNumber = "52"
+            landmarkName = "-bind"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

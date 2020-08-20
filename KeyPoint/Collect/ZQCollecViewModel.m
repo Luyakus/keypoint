@@ -13,7 +13,7 @@
         [self.empty sendNext:@"请先登录"];
         return;
     } else {
-        [self.empty sendCompleted];
+       [self.empty sendCompleted];
     }
     
     ZQSimplePostRequest *r = [ZQSimplePostRequest new];
