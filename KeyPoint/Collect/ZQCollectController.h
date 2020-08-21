@@ -5,12 +5,14 @@
 //  Created by Sam on 2020/6/19.
 //  Copyright © 2020 Sam. All rights reserved.
 //
-
+#import "ZQSectionWebsiteModel.h"
 #import "ZQBaseController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZQCollectController : ZQBaseController
+@property (nonatomic, readonly) NSArray <ZQSectionWebsiteModel *> *sections;
+
 - (void)update;
 @end
 

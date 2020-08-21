@@ -103,7 +103,6 @@
 }
 
 - (void)refresh {
-    
 }
 
 - (void)toast:(NSString *)text {

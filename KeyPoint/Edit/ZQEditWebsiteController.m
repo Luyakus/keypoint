@@ -17,6 +17,8 @@
 
 @property (nonatomic, copy) void(^editCompletionBlock)(void);
 @property (nonatomic, strong) NSArray <ZQSectionWebsiteModel *> *sections;
+@property (nonatomic, strong) ZQSectionWebsiteModel *selectSection;
+
 @property (nonatomic, strong) ZQWebsiteModel *website;
 
 @end
@@ -35,23 +37,43 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self ui];
+    [self bind];
 }
 
+#pragma mark - 业务逻辑
+
+- (void)bind {
+    @weakify(self)
+    [[RACSignal combineLatest:@[self.websiteTitleTf.rac_textSignal,
+                                self.websiteUrlTf.rac_textSignal,
+                                self.websiteSectionTf.rac_textSignal]
+    ] subscribeNext:^(RACTuple * _Nullable x) {
+        NSString *websiteTitle = x.first;
+        NSString *websiteUrl = x.second;
+        NSString *webSectionTitle = x.third;
+        self.website.title = websiteTitle;
+        self.website.url = websiteUrl;
+        if (websiteTitle.length > 0 &&
+            websiteUrl.length > 0 &&
+            webSectionTitle.length > 0) {
+            self.confirmBtn.userInteractionEnabled = YES;
+            self.confirmBtn.backgroundColor = [UIColor colorWithRGB:0x1296db];
+        } else {
+            self.confirmBtn.userInteractionEnabled = NO;
+            self.confirmBtn.backgroundColor = [UIColor colorWithRGB:0xdddddd];
+        }
+    }];
+    
+    [RACObserve(self, selectSection) subscribeNext:^(ZQSectionWebsiteModel *x) {
+        @strongify(self)
+        self.websiteSectionTf.text = x.sectionTitle;
+        self.website.sectionTitle = x.sectionTitle;
+    }];
+}
+
+
 - (void)confirm {
-    if (self.websiteTitleTf.text.length == 0) {
-        [self toast:@"请输入网站名称"];
-        return;
-    }
     
-    if (self.websiteUrlTf.text.length == 0) {
-        [self toast:@"请输入网站地址"];
-        return;
-    }
-    
-    if (self.websiteSectionTf.text.length == 0) {
-        [self toast:@"请选择网站分类"];
-        return;
-    }
 }
 
 - (void)selectSectionCancel {
@@ -65,7 +87,8 @@
 
 #pragma mark - 协议
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
-    self.websiteSectionTf.text = @(row).stringValue;
+    self.selectSection = self.sections[row];
+    
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
@@ -77,11 +100,11 @@
 
 // returns the # of rows in each component..
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-    return 10;
+    return self.sections.count;
 }
 
 - (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-    return @"abc";
+    return self.sections[row].sectionTitle;
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
@@ -151,6 +174,14 @@
         make.height.mas_equalTo(60);
     }];
     
+    if (self.website.sectionTitle.length > 0) {
+        for (ZQSectionWebsiteModel *section in self.sections) {
+            if ([section.sectionTitle isEqualToString:self.website.sectionTitle]) {
+                self.selectSection = section;
+                break;
+            }
+        }
+    }
     
     [websiteSectionHolder addSubview:self.websiteSectionTf];
     self.websiteTitleTf.text = self.website.sectionTitle;

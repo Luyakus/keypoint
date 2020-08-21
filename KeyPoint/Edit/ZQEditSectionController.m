@@ -26,9 +26,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self ui];
+    [self bind];
 }
 
 #pragma mark - 业务逻辑
+
+- (void)bind {
+    [self.sectionTitleTf.rac_textSignal subscribeNext:^(NSString * _Nullable x) {
+        if (x.length > 0) {
+            self.confirmBtn.userInteractionEnabled = YES;
+            self.confirmBtn.backgroundColor = [UIColor colorWithRGB:0x1296db];
+        } else {
+            self.confirmBtn.userInteractionEnabled = NO;
+            self.confirmBtn.backgroundColor = [UIColor colorWithRGB:0xdddddd];
+        }
+    }];
+}
 
 - (void)confirm {
     if (self.sectionTitleTf.text.length == 0) {

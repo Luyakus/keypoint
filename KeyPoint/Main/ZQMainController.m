@@ -84,7 +84,11 @@
         
         UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *a = [UIAlertAction actionWithTitle:@"添加网站" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
-            ZQEditWebsiteController *vc = [ZQEditWebsiteController new];
+            ZQWebsiteModel *website = [ZQWebsiteModel new];
+            ZQEditWebsiteController *vc = [[ZQEditWebsiteController alloc] initWithSections:self.collectVC.sections webSite:website editCompletionBlock:^{
+                @strongify(self)
+                [self.collectVC update];
+            }];
             [self.navigationController pushViewController:vc animated:YES];
         }];
         

@@ -205,6 +205,10 @@
     return (ZQBaseViewModel *)self.viewModel;
 }
 
+- (NSArray<ZQSectionWebsiteModel *> *)sections {
+    return [self.viewModel.sections subarrayWithRange:NSMakeRange(1, self.viewModel.sections.count - 1)];
+}
+
 #pragma mark - 准备工作
 - (void)ui {
     self.view.backgroundColor = [UIColor blueColor];

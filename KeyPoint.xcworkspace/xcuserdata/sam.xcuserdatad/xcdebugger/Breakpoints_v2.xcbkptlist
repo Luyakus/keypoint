@@ -79,14 +79,14 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "0DE8E960-DA05-4D67-A63C-BAE6C3C23A2A - 5ecb793547fb2f70"
+                  uuid = "0DE8E960-DA05-4D67-A63C-BAE6C3C23A2A - 25b7441d42fa0e7a"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "__26-[ZQBaseController zqBind]_block_invoke.51"
                   moduleName = "KeyPoint"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sam/Desktop/%E9%A1%B9%E7%9B%AE/KeyPoint/KeyPoint/Base/ZQBaseController.m"
+                  urlString = "file:///Users/sam/Desktop/iOS/keypoint/KeyPoint/Base/ZQBaseController.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "75"
@@ -94,14 +94,14 @@
                   offsetFromSymbolStart = "19">
                </Location>
                <Location
-                  uuid = "0DE8E960-DA05-4D67-A63C-BAE6C3C23A2A - 22db41f85e1120c"
+                  uuid = "0DE8E960-DA05-4D67-A63C-BAE6C3C23A2A - 7951893780e03306"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
                   symbolName = "__26-[ZQBaseController zqBind]_block_invoke_2.52"
                   moduleName = "KeyPoint"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/sam/Desktop/%E9%A1%B9%E7%9B%AE/KeyPoint/KeyPoint/Base/ZQBaseController.m"
+                  urlString = "file:///Users/sam/Desktop/iOS/keypoint/KeyPoint/Base/ZQBaseController.m"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "75"
@@ -114,16 +114,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "835C06D9-F005-4354-9D13-0AE36D907925"
+            uuid = "B7034DE7-092F-4763-9B9F-DC2564D21FA1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "KeyPoint/Base/ZQBaseController.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "105"
+            endingLineNumber = "105"
+            landmarkName = "-refresh"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4252B212-DF92-41BF-A16E-3E0E265A17A8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "KeyPoint/Collect/ZQCollectController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "52"
-            endingLineNumber = "52"
-            landmarkName = "-bind"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
+            landmarkName = "-refresh"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
