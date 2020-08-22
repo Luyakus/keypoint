@@ -16,6 +16,7 @@
 // C
 #import "ZQCollectController.h"
 #import "ZQEditSectionController.h"
+#import "ZQEditWebsiteController.h"
 
 // VM
 #import "ZQCollecViewModel.h"
@@ -106,28 +107,8 @@
     ZQSectionWebsiteModel *websiteSection = self.sections[indexPath.section];
     NSArray <ZQWebsiteModel *> *websites = websiteSection.websites;
     ZQWebsiteModel *model = websites[indexPath.row];
-    
-    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"" message:@"提示" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *a = [UIAlertAction actionWithTitle:@"复制网站名称" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
-        UIPasteboard.generalPasteboard.string = model.title;
-    }];
-    
-    UIAlertAction *b = [UIAlertAction actionWithTitle:@"复制网站地址" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
-        UIPasteboard.generalPasteboard.string = model.url;
-    }];
-    
-    UIAlertAction *c = [UIAlertAction actionWithTitle:@"打开网站" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:model.url]];
-    }];
-    
-    UIAlertAction *d = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(__kindof UIAlertAction * _Nonnull action) {
-    }];
-    
-    [vc addAction:a];
-    [vc addAction:b];
-    [vc addAction:c];
-    [vc addAction:d];
-    [self presentViewController:vc animated:YES completion:nil];
+    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:model.url]]) return;
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:model.url]];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -141,47 +122,14 @@
     ZQSectionWebsiteModel *websiteSection = self.sections[indexPath.section];
     NSArray <ZQWebsiteModel *> *websites = websiteSection.websites;
     ZQWebsiteModel *model = websites[indexPath.row];
-        
+    @weakify(self)
     UITableViewRowAction *edit = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"修改" handler:^(UITableViewRowAction *action, NSIndexPath *indexPath) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请输入网站名称和网站地址" preferredStyle:UIAlertControllerStyleAlert];
-        
-        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.text = model.title;
-            textField.placeholder = @"网站名称";
+        @strongify(self)
+        model.sectionTitle = websiteSection.sectionTitle;
+        ZQEditWebsiteController *vc = [[ZQEditWebsiteController alloc] initWithSections:self.sections webSite:model editCompletionBlock:^{
+            [self update];
         }];
-        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.text = model.url;
-            textField.placeholder = @"网站地址";
-        }];
-        [alert addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            textField.text = model.sectionTitle;
-            textField.placeholder = @"网站分类";
-        }];
-        UIAlertAction *a = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            if (alert.textFields.firstObject.text.length == 0 ||
-                alert.textFields[1].text.length == 0 ||
-                alert.textFields.lastObject.text.length == 0) {
-                [self toast:@"请输入完整的网站信息"];
-                return;
-            }
-        
-            ZQCollectRequest *r = [ZQCollectRequest requestWithWebsiteTitle:alert.textFields.firstObject.text url:alert.textFields.lastObject.text];
-            [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
-                if (r.resultCode == 1) {
-                    [self toast:@"添加成功"];
-                    [self update];
-                } else {
-                    [self toast:r.errorMessage];
-                }
-            } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
-                [self toast:@"网络错误"];
-            }];
-        }];
-        UIAlertAction *b = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-        }];
-        
-        [alert addAction:a]; [alert addAction:b];
-        [self presentViewController:alert animated:YES completion:nil];
+        [self.navigationController pushViewController:vc animated:YES];
     }];
     edit.backgroundColor = [UIColor systemBlueColor];
     
@@ -206,7 +154,7 @@
 }
 
 - (NSArray<ZQSectionWebsiteModel *> *)sections {
-    return [self.viewModel.sections subarrayWithRange:NSMakeRange(1, self.viewModel.sections.count - 1)];
+    return self.viewModel.sections;
 }
 
 #pragma mark - 准备工作

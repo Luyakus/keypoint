@@ -50,28 +50,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ZQWebsiteModel *model = self.websites[indexPath.row];
-
-    UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"" message:@"提示" preferredStyle:UIAlertControllerStyleActionSheet];
-    UIAlertAction *a = [UIAlertAction actionWithTitle:@"复制网站名称" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
-        UIPasteboard.generalPasteboard.string = model.title;
-    }];
-    
-    UIAlertAction *b = [UIAlertAction actionWithTitle:@"复制网站地址" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
-        UIPasteboard.generalPasteboard.string = model.url;
-    }];
-    
-    UIAlertAction *c = [UIAlertAction actionWithTitle:@"打开网站" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
-        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:model.url]];
-    }];
-    
-    UIAlertAction *d = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(__kindof UIAlertAction * _Nonnull action) {
-    }];
-    
-    [vc addAction:a];
-    [vc addAction:b];
-    [vc addAction:c];
-    [vc addAction:d];
-    [self presentViewController:vc animated:YES completion:nil];
+    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:model.url]]) return;
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:model.url]];
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -111,8 +91,9 @@
         @"sign":ZQStatusDB.signCode?:@"",
         @"selName":self.keyword?:@""
     };
+    [self showLoading];
     [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
-        [self.tb.mj_header endRefreshing];
+        [self hideLoading];
         if (r.resultCode == 1) {
             NSArray *arr = [NSArray modelArrayWithClass:ZQWebsiteModel.class json:r.responseJSONObject[@"list"]];
             self.websites = arr;
@@ -121,8 +102,8 @@
             [self toast:r.errorMessage];
         }
     } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
+        [self hideLoading];
         [self toast:@"网络错误"];
-        [self.tb.mj_header endRefreshing];
     }];
 }
 

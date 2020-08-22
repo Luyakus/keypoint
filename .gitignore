@@ -2,3 +2,5 @@
 /DerivedData
 /.DS_Store
 /YYKit
+*.xcuserstate
+/KeyPoint.xcworkspace/xcuserdata/sam.xcuserdatad/UserInterfaceState.xcuserstate

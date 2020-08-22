@@ -21,7 +21,7 @@
 #import "ZQEditSectionController.h"
 #import "ZQEditWebsiteController.h"
 
-@interface ZQMainController ()
+@interface ZQMainController () <UITextFieldDelegate>
 @property (nonatomic, weak) ZQMainSearchBar *searchBar;
 @property (nonatomic, weak) ZQMainBottomToolBar *toolBar;
 @property (nonatomic, strong) UIView *contentHolder;
@@ -59,20 +59,7 @@
     
     [[self.searchBar.searchBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(id  _Nullable x) {
         @strongify(self)
-        
-        if (self.searchBar.searchTf.text.length == 0) {
-            [self toast:@"搜索内容不能为空"];
-            return;
-        }
-        
-        if (!ZQStatusDB.isLogin) {
-            ZQLoginController *login = [ZQLoginController new];
-            [self.navigationController pushViewController:login animated:YES];
-            return;
-        }
-        
-        ZQSearchResultController *vc = [[ZQSearchResultController alloc] initWithKeyword:self.searchBar.searchTf.text];
-        [self.navigationController pushViewController:vc animated:YES];
+        [self search];
     }];
     
     [[self.searchBar.addBtn rac_signalForControlEvents:UIControlEventTouchUpInside] subscribeNext:^(__kindof UIControl * _Nullable x) {
@@ -127,6 +114,32 @@
         }];
     }];
     
+}
+
+- (void)search {
+    
+    if (self.searchBar.searchTf.text.length == 0) {
+        [self toast:@"搜索内容不能为空"];
+        return;
+    }
+    
+    if (!ZQStatusDB.isLogin) {
+        ZQLoginController *login = [ZQLoginController new];
+        [self.navigationController pushViewController:login animated:YES];
+        return;
+    }
+    
+    ZQSearchResultController *vc = [[ZQSearchResultController alloc] initWithKeyword:self.searchBar.searchTf.text];
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    if (textField == self.searchBar.searchTf) {
+        [self search];
+    }
+    [textField resignFirstResponder];
+    return YES;
 }
 
 #pragma mark - 准备工作
@@ -187,6 +200,8 @@
     return _searchBar ?: ({
         ZQMainSearchBar *s = [ZQMainSearchBar new];
         s.searchTf.placeholder = @"搜索";
+        s.searchTf.returnKeyType = UIReturnKeySearch;
+        s.searchTf.delegate = self;
         _searchBar = s;
         s;
     });

@@ -8,7 +8,7 @@
 
 #import "ZQEditWebsiteController.h"
 
-@interface ZQEditWebsiteController () <UIPickerViewDelegate, UITextFieldDelegate>
+@interface ZQEditWebsiteController () <UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 @property (nonatomic, weak) UITextField *websiteTitleTf;
 @property (nonatomic, weak) UITextField *websiteUrlTf;
 @property (nonatomic, weak) UITextField *websiteSectionTf;
@@ -44,6 +44,12 @@
 
 - (void)bind {
     @weakify(self)
+    
+    [RACObserve(self, selectSection) subscribeNext:^(ZQSectionWebsiteModel *x) {
+        @strongify(self)
+        self.websiteSectionTf.text = x.sectionTitle;
+    }];
+    
     [[RACSignal combineLatest:@[self.websiteTitleTf.rac_textSignal,
                                 self.websiteUrlTf.rac_textSignal,
                                 self.websiteSectionTf.rac_textSignal]
@@ -64,16 +70,48 @@
         }
     }];
     
-    [RACObserve(self, selectSection) subscribeNext:^(ZQSectionWebsiteModel *x) {
-        @strongify(self)
-        self.websiteSectionTf.text = x.sectionTitle;
-        self.website.sectionTitle = x.sectionTitle;
-    }];
 }
 
 
 - (void)confirm {
-    
+    ZQSimplePostRequest *r = [[ZQSimplePostRequest alloc] init];
+    if (self.website.identifier.length > 0) { // 修改
+        r.url = @"Collectphone/upCollect";
+        r.arguments = @{
+            @"id":self.website.identifier,
+            @"webName":self.website.title,
+            @"webUrl":self.website.url,
+            @"is_type":self.selectSection.sectionId?:@"0"
+        };
+    } else {// 添加
+        r.url = @"Collectphone/addCollect";
+        r.arguments = @{
+            @"sign":ZQStatusDB.signCode?:@"",
+            @"webName":self.website.title,
+            @"webUrl":self.website.url,
+            @"is_type":self.selectSection.sectionId?:@""
+        };
+    }
+    @weakify(self)
+    [self showLoading];
+    [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
+        @strongify(self)
+        [self hideLoading];
+        if (r.resultCode != 1) {
+            [self toast:r.errorMessage];
+        }
+        if (self.editCompletionBlock) {
+            self.editCompletionBlock();
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
+        [self hideLoading];
+        [self toast:@"网络错误"];
+        if (self.editCompletionBlock) {
+            self.editCompletionBlock();
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    }];
 }
 
 - (void)selectSectionCancel {
@@ -88,7 +126,6 @@
 #pragma mark - 协议
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     self.selectSection = self.sections[row];
-    
 }
 
 - (CGFloat)pickerView:(UIPickerView *)pickerView rowHeightForComponent:(NSInteger)component {
@@ -111,6 +148,13 @@
     return NO;
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    UIPickerView *p  = (UIPickerView *)self.websiteSectionTf.inputView;
+    if (self.selectSection) {
+        NSInteger index = [self.sections indexOfObject:self.selectSection];
+        [p selectRow:index inComponent:0 animated:NO];
+    }
+}
 #pragma mark - 准备工作
 - (void)ui {
     self.title = self.website.identifier.length == 0 ? @"添加网站" : @"编辑网站";
@@ -181,10 +225,12 @@
                 break;
             }
         }
+    } else {
+        self.selectSection = self.sections.firstObject;
     }
     
     [websiteSectionHolder addSubview:self.websiteSectionTf];
-    self.websiteTitleTf.text = self.website.sectionTitle;
+    self.websiteTitleTf.text = self.website.title;
     [self.websiteSectionTf mas_makeConstraints:^(MASConstraintMaker *make) {
         make.height.mas_equalTo(40);
         make.bottom.equalTo(websiteSectionHolder);
@@ -230,6 +276,7 @@
         t.inputView = ({
             UIPickerView *p = [[UIPickerView alloc] init];
             p.delegate = self;
+            p.dataSource = self;
             p;
         });
         t.inputAccessoryView = ({
