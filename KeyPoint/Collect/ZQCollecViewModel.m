@@ -10,11 +10,11 @@
 @implementation ZQCollecViewModel
 - (void) update{
     if (!ZQStatusDB.isLogin) {
-        [self.empty sendNext:@"请先登录"];
+        [self.empty sendNext:RACTuplePack(@YES, @"请先登录")];
         [self.endRefresh sendNext:nil];
         return;
     } else {
-       [self.empty sendCompleted];
+       [self.empty sendNext:RACTuplePack(@NO)];
     }
     
     ZQSimplePostRequest *r = [ZQSimplePostRequest new];

@@ -10,7 +10,7 @@
 
 @implementation ZQAddCommendRequest
 + (instancetype)requestWithWebsiteId:(NSString *)websiteId {
-    ZQSimplePostRequest *r = [ZQSimplePostRequest new];
+    ZQSimplePostRequest *r = [self new];
     r.url = @"Collectphone/recCollect";
     r.arguments = @{
         @"sign":ZQStatusDB.signCode?:@"",

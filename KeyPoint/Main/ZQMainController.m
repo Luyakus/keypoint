@@ -137,16 +137,14 @@
         ZQSearchResultController *vc = [[ZQSearchResultController alloc] initWithKeyword:self.searchBar.searchTf.text DataSource:self.collectVC.allWebsites];
         [self.navigationController pushViewController:vc animated:YES];
     }
-    
-    
-
+    [self.searchBar.searchTf resignFirstResponder];
+    self.searchBar.searchTf.text = nil;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     if (textField == self.searchBar.searchTf) {
         [self search];
     }
-    [textField resignFirstResponder];
     return YES;
 }
 

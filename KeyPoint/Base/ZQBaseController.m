@@ -63,16 +63,23 @@
         MJRefreshDispatchAsyncOnMainQueue([self hideLoading];);
     }];
     
-    [viewModel.empty subscribeNext:^(NSString *x) {
+    [viewModel.empty subscribeNext:^(RACTuple *x) {
         @strongify(self)
-        MJRefreshDispatchAsyncOnMainQueue(
-            if ([x isKindOfClass:[NSString class]]) {
-                self.emptyView.textLabel.text = x;
-            }
-            [self showEmptyView];
-        );
-    } completed:^{
-        MJRefreshDispatchAsyncOnMainQueue([self hideEmptyView];);
+        BOOL show = [x.first boolValue];
+        NSString *text = x.second;
+        if (show) {
+            MJRefreshDispatchAsyncOnMainQueue(
+                if ([text isKindOfClass:[NSString class]]) {
+                    self.emptyView.textLabel.text = text;
+                }
+                [self showEmptyView];
+            );
+        } else {
+            MJRefreshDispatchAsyncOnMainQueue(
+                [self hideEmptyView];
+            );
+        }
+       
     }];
     
     [viewModel.toast subscribeNext:^(NSString *x) {
