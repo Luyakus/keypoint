@@ -11,8 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZQCollectController : ZQBaseController
-@property (nonatomic, readonly) NSArray <ZQSectionWebsiteModel *> *sections;
-
+@property (nonatomic, readonly) NSArray <ZQSectionWebsiteModel *> *allSections;
+@property (nonatomic, readonly) NSArray <ZQWebsiteModel *> *allWebsites;
 - (void)update;
 @end
 

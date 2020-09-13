@@ -15,7 +15,7 @@
 
 
 @interface ZQUserInfoController () <UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, weak) UITableView *tb;
+@property (nonatomic, strong) UITableView *tb;
 @property (nonatomic, weak) UIButton *logoutBtn;
 @property (nonatomic, copy) NSString *phoneNum;
 @property (nonatomic, copy) NSString *sign;

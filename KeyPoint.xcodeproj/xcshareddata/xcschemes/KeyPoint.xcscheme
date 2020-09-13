@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "226D9DD02491060300D6E6EE"
-               BuildableName = "KeyPoint.app"
+               BuildableName = "tvtvc.app"
                BlueprintName = "KeyPoint"
                ReferencedContainer = "container:KeyPoint.xcodeproj">
             </BuildableReference>
@@ -45,7 +45,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "226D9DD02491060300D6E6EE"
-            BuildableName = "KeyPoint.app"
+            BuildableName = "tvtvc.app"
             BlueprintName = "KeyPoint"
             ReferencedContainer = "container:KeyPoint.xcodeproj">
          </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "226D9DD02491060300D6E6EE"
-            BuildableName = "KeyPoint.app"
+            BuildableName = "tvtvc.app"
             BlueprintName = "KeyPoint"
             ReferencedContainer = "container:KeyPoint.xcodeproj">
          </BuildableReference>

@@ -8,7 +8,7 @@
 
 #import "AppDelegate.h"
 #import "ZQMainController.h"
-
+#import <IQKeyboardManager/IQKeyboardManager.h>
 @interface Foo : NSObject
 
 @end
@@ -35,7 +35,7 @@
     w.rootViewController = nav;
     self.window = w;
     [self.window makeKeyAndVisible];
-    
+    [IQKeyboardManager sharedManager].enable = YES;
     return YES;
 }
 

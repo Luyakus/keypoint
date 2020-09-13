@@ -24,7 +24,8 @@
         [self.contentView addSubview:self.title];
         [self.title mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.contentView).offset(15);
-            make.top.bottom.equalTo(self.contentView);
+            make.top.equalTo(self.contentView).offset(5);
+            make.bottom.equalTo(self.contentView).offset(-5);
             make.height.greaterThanOrEqualTo(@50);
             make.width.equalTo(@80);
         }];
@@ -50,7 +51,7 @@
     return _title ?: ({
         UILabel *l = [UILabel new];
         l.font = [UIFont systemFontOfSize:14];
-        l.numberOfLines = 0;
+        l.numberOfLines = 3;
         l.textColor = [UIColor colorWithRGB:0x666666];
         _title = l;
         l;
@@ -62,7 +63,7 @@
     return _url ?: ({
         UILabel *l = [UILabel new];
         l.font = [UIFont systemFontOfSize:14];
-        l.numberOfLines = 0;
+        l.numberOfLines = 2;
         l.textColor = [UIColor colorWithRGB:0x999999];
         _url = l;
         l;

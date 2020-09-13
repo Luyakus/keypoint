@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (ZQBaseViewModel *)innerViewModel;
 - (MJRefreshFooter *)innerRefreshFooter;
 - (MJRefreshHeader *)innerRefreshHeader;
-
+// tableview 要用 strong 
 - (void)loadMore;
 - (void)refresh;
 @end

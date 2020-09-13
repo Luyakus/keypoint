@@ -18,12 +18,13 @@
 
 // VM
 
-
+// R
+#import "ZQAddCommendRequest.h"
 
 
 
 @interface ZQCommendController () <UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, weak) UITableView *tb;
+@property (nonatomic, strong) UITableView *tb;
 @property (nonatomic, strong) NSArray <ZQSectionWebsiteModel *> *sections;
 @end
 
@@ -32,7 +33,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self ui];
-    [self refresh];
+    [self.innerRefreshHeader beginRefreshing];
 }
 
 #pragma mark - 业务逻辑
@@ -77,12 +78,7 @@
     ZQSectionWebsiteModel *websiteSection = self.sections[indexPath.section];
     NSArray <ZQWebsiteModel *> *websites = websiteSection.websites;
     ZQWebsiteModel *model = websites[indexPath.row];
-    ZQSimpleGetRequest *r = [ZQSimpleGetRequest new];
-    r.url = @"Collectphone/recCollect";
-    r.arguments = @{
-        @"sign":ZQStatusDB.signCode?:@"",
-        @"id":@((model.identifier?:@"").intValue)
-    };
+    ZQAddCommendRequest *r = [ZQAddCommendRequest requestWithWebsiteId:model.identifier];
     [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
         if (r.resultCode == 1) {
             [self toast:@"添加成功"];
@@ -92,7 +88,7 @@
     } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
         [self toast:@"网络错误"];
     }];
-    tableView.editing = NO;
+//    tableView.editing = NO;
 }
 
 - (nullable NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {

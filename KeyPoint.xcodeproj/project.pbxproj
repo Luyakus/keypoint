@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -35,7 +35,7 @@
 		226D9E3F249CF19B00D6E6EE /* ZQWebsiteCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 226D9E3E249CF19B00D6E6EE /* ZQWebsiteCell.m */; };
 		226D9E42249CF24800D6E6EE /* ZQSimpleRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 226D9E41249CF24800D6E6EE /* ZQSimpleRequest.m */; };
 		226D9E46249D241300D6E6EE /* ZQSearchResultController.m in Sources */ = {isa = PBXBuildFile; fileRef = 226D9E45249D241300D6E6EE /* ZQSearchResultController.m */; };
-		226D9E4A249D24A000D6E6EE /* ZQCollectRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 226D9E49249D24A000D6E6EE /* ZQCollectRequest.m */; };
+		226D9E4A249D24A000D6E6EE /* ZQAddCommendRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 226D9E49249D24A000D6E6EE /* ZQAddCommendRequest.m */; };
 		22909C9B24E9667800A3AC4B /* ZQCommendAddRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 22909C9A24E9667800A3AC4B /* ZQCommendAddRequest.m */; };
 		22909C9F24E96AF200A3AC4B /* ZQCollectSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 22909C9E24E96AF200A3AC4B /* ZQCollectSectionView.m */; };
 		22909CA524E975A600A3AC4B /* ZQEditSectionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 22909CA424E975A600A3AC4B /* ZQEditSectionController.m */; };
@@ -49,7 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		226D9DD12491060300D6E6EE /* KeyPoint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KeyPoint.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		226D9DD12491060300D6E6EE /* tvtvc.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tvtvc.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		226D9DD42491060300D6E6EE /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		226D9DD52491060300D6E6EE /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		226D9DE02491060500D6E6EE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,8 +105,8 @@
 		226D9E41249CF24800D6E6EE /* ZQSimpleRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQSimpleRequest.m; sourceTree = "<group>"; };
 		226D9E44249D241300D6E6EE /* ZQSearchResultController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQSearchResultController.h; sourceTree = "<group>"; };
 		226D9E45249D241300D6E6EE /* ZQSearchResultController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQSearchResultController.m; sourceTree = "<group>"; };
-		226D9E48249D24A000D6E6EE /* ZQCollectRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQCollectRequest.h; sourceTree = "<group>"; };
-		226D9E49249D24A000D6E6EE /* ZQCollectRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQCollectRequest.m; sourceTree = "<group>"; };
+		226D9E48249D24A000D6E6EE /* ZQAddCommendRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQAddCommendRequest.h; sourceTree = "<group>"; };
+		226D9E49249D24A000D6E6EE /* ZQAddCommendRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQAddCommendRequest.m; sourceTree = "<group>"; };
 		22909C9924E9667800A3AC4B /* ZQCommendAddRequest.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQCommendAddRequest.h; sourceTree = "<group>"; };
 		22909C9A24E9667800A3AC4B /* ZQCommendAddRequest.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQCommendAddRequest.m; sourceTree = "<group>"; };
 		22909C9D24E96AF200A3AC4B /* ZQCollectSectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQCollectSectionView.h; sourceTree = "<group>"; };
@@ -155,7 +155,7 @@
 		226D9DD22491060300D6E6EE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				226D9DD12491060300D6E6EE /* KeyPoint.app */,
+				226D9DD12491060300D6E6EE /* tvtvc.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -358,8 +358,8 @@
 		226D9E47249D247600D6E6EE /* Request */ = {
 			isa = PBXGroup;
 			children = (
-				226D9E48249D24A000D6E6EE /* ZQCollectRequest.h */,
-				226D9E49249D24A000D6E6EE /* ZQCollectRequest.m */,
+				226D9E48249D24A000D6E6EE /* ZQAddCommendRequest.h */,
+				226D9E49249D24A000D6E6EE /* ZQAddCommendRequest.m */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -438,7 +438,7 @@
 			);
 			name = KeyPoint;
 			productName = KeyPoint;
-			productReference = 226D9DD12491060300D6E6EE /* KeyPoint.app */;
+			productReference = 226D9DD12491060300D6E6EE /* tvtvc.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -560,7 +560,7 @@
 				22E9817924E00CC500F30A9F /* ZQSectionWebsiteModel.m in Sources */,
 				226D9E232499C63100D6E6EE /* ZQStatusDB.m in Sources */,
 				22909CA524E975A600A3AC4B /* ZQEditSectionController.m in Sources */,
-				226D9E4A249D24A000D6E6EE /* ZQCollectRequest.m in Sources */,
+				226D9E4A249D24A000D6E6EE /* ZQAddCommendRequest.m in Sources */,
 				226D9E1F249906ED00D6E6EE /* ZQLoginController.m in Sources */,
 				226D9E26249A4FDE00D6E6EE /* ZQAuthcodeRequest.m in Sources */,
 				226D9E102496221900D6E6EE /* ZQBaseController.m in Sources */,
@@ -702,7 +702,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BBH3U98L88;
+				CURRENT_PROJECT_VERSION = 7;
+				DEVELOPMENT_TEAM = 9PP5R6XW8J;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/KeyPoint/ZQKeyPoint.pch";
 				INFOPLIST_FILE = KeyPoint/Info.plist;
@@ -710,8 +711,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhangqianit.KeyPoint;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = tvtvc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -724,7 +726,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = BBH3U98L88;
+				CURRENT_PROJECT_VERSION = 7;
+				DEVELOPMENT_TEAM = 9PP5R6XW8J;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/KeyPoint/ZQKeyPoint.pch";
 				INFOPLIST_FILE = KeyPoint/Info.plist;
@@ -732,8 +735,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.0.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.zhangqianit.KeyPoint;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = tvtvc;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

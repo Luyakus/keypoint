@@ -22,10 +22,10 @@
 #import "ZQCollecViewModel.h"
 
 // R
-#import "ZQCollectRequest.h"
+
 
 @interface ZQCollectController () <UITableViewDelegate, UITableViewDataSource>
-@property (nonatomic, weak) UITableView *tb;
+@property (nonatomic, strong) UITableView *tb;
 @property (nonatomic, strong) NSArray <ZQSectionWebsiteModel *> *sections;
 @property (nonatomic, strong) ZQCollecViewModel *viewModel;
 @end
@@ -50,7 +50,7 @@
     @weakify(self)
     [[NSNotificationCenter.defaultCenter rac_addObserverForName:ZQStatusDBLoginStatusChanged object:nil] subscribeNext:^(NSNotification * _Nullable x) {
         @strongify(self)
-        [self refresh];
+        [self update];
     }];
       
     [RACObserve(self.viewModel, sections) subscribeNext:^(NSArray <ZQSectionWebsiteModel *> *x) {
@@ -61,7 +61,7 @@
 }
 
 - (void)update {
-    [self refresh];
+    [self.innerRefreshHeader beginRefreshing];
 }
 
 
@@ -140,6 +140,20 @@
     return @[delete, edit];
 }
 
+#pragma mark - helper
+
+- (NSArray<ZQSectionWebsiteModel *> *)allSections {
+    return self.sections.copy;
+}
+
+
+- (NSArray <ZQWebsiteModel *> *)allWebsites {
+    NSMutableArray *arr = @[].mutableCopy;
+    for (ZQSectionWebsiteModel *section in self.sections) {
+        [arr addObjectsFromArray:section.websites];
+    }
+    return [arr copy];
+}
 #pragma mark - overwrite
 - (void)refresh {
     [self.viewModel update];

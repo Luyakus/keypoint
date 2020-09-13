@@ -10,8 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZQCollectRequest : ZQBaseRequest
-+ (instancetype)requestWithWebsiteTitle:(NSString *)title url:(NSString *)url;
+@interface ZQAddCommendRequest : ZQBaseRequest
++ (instancetype)requestWithWebsiteId:(NSString *)websiteId;
 @end
 
 NS_ASSUME_NONNULL_END

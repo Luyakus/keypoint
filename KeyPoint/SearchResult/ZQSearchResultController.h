@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZQSearchResultController : ZQBaseController
 - (instancetype)initWithKeyword:(NSString *)keyword;
+- (instancetype)initWithKeyword:(NSString *)keyword DataSource:(NSArray<ZQWebsiteModel *> *)websites;
 @end
 
 NS_ASSUME_NONNULL_END

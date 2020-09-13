@@ -7,7 +7,7 @@
 //
 
 // M
-#import "ZQCollectRequest.h"
+#import "ZQAddCommendRequest.h"
 // V
 #import "ZQMainSearchBar.h"
 #import "ZQMainBottomToolBar.h"
@@ -26,6 +26,7 @@
 @property (nonatomic, weak) ZQMainBottomToolBar *toolBar;
 @property (nonatomic, strong) UIView *contentHolder;
 @property (nonatomic, strong) MASConstraint *contentLeft;
+@property (nonatomic, assign) CGFloat contentOffset;
 @property (nonatomic, weak) ZQCollectController *collectVC;
 @end
 
@@ -72,7 +73,7 @@
         UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"" preferredStyle:UIAlertControllerStyleActionSheet];
         UIAlertAction *a = [UIAlertAction actionWithTitle:@"添加网站" style:UIAlertActionStyleDefault handler:^(__kindof UIAlertAction * _Nonnull action) {
             ZQWebsiteModel *website = [ZQWebsiteModel new];
-            ZQEditWebsiteController *vc = [[ZQEditWebsiteController alloc] initWithSections:self.collectVC.sections webSite:website editCompletionBlock:^{
+            ZQEditWebsiteController *vc = [[ZQEditWebsiteController alloc] initWithSections:self.collectVC.allSections webSite:website editCompletionBlock:^{
                 @strongify(self)
                 [self.collectVC update];
             }];
@@ -106,7 +107,7 @@
         
         if (x == self.toolBar.rightBtn) [self.collectVC update];
         [UIView animateWithDuration:0.3 animations:^{
-            self.contentLeft.offset = x == self.toolBar.leftBtn ? 0 : -self.view.width;
+            self.contentLeft.offset = self.contentOffset = x == self.toolBar.leftBtn ? 0 : -self.view.width;
             [self.searchBar.addBtn mas_updateConstraints:^(MASConstraintMaker *make) {
                 make.left.equalTo(self.searchBar).offset(x == self.toolBar.rightBtn ? 15 : -30);
             }];
@@ -129,8 +130,15 @@
         return;
     }
     
-    ZQSearchResultController *vc = [[ZQSearchResultController alloc] initWithKeyword:self.searchBar.searchTf.text];
-    [self.navigationController pushViewController:vc animated:YES];
+    if (self.contentOffset == 0) {
+        ZQSearchResultController *vc = [[ZQSearchResultController alloc] initWithKeyword:self.searchBar.searchTf.text];
+        [self.navigationController pushViewController:vc animated:YES];
+    } else {
+        ZQSearchResultController *vc = [[ZQSearchResultController alloc] initWithKeyword:self.searchBar.searchTf.text DataSource:self.collectVC.allWebsites];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
+    
 
 }
 

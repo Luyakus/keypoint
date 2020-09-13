@@ -8,16 +8,22 @@
 
 // M
 #import "ZQWebsiteModel.h"
-#import "ZQCollectRequest.h"
+#import "ZQAddCommendRequest.h"
 // V
 #import "ZQWebsiteCell.h"
 // C
 #import "ZQSearchResultController.h"
 
+typedef NS_ENUM(NSUInteger, ZQSearchActionFromType) {
+    ZQSearchActionFromTypeCommend,
+    ZQSearchActionFromTypeCollect,
+};
+
 @interface ZQSearchResultController () <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, copy) NSString *keyword;
-@property (nonatomic, weak) UITableView *tb;
+@property (nonatomic, strong) UITableView *tb;
 @property (nonatomic, strong) NSArray <ZQWebsiteModel *> *websites;
+@property (nonatomic, assign) ZQSearchActionFromType from;
 @end
 
 @implementation ZQSearchResultController
@@ -25,6 +31,16 @@
 - (instancetype)initWithKeyword:(NSString *)keyword {
     if (self = [super init]) {
         self.keyword = keyword;
+        self.from = ZQSearchActionFromTypeCommend;
+    }
+    return self;
+}
+
+- (instancetype)initWithKeyword:(NSString *)keyword DataSource:(NSArray<ZQWebsiteModel *> *)websites {
+    if (self = [super init]) {
+        self.websites = websites;
+        self.keyword = keyword;
+        self.from = ZQSearchActionFromTypeCollect;
     }
     return self;
 }
@@ -54,10 +70,16 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:model.url]];
 }
 
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    ZQWebsiteModel *model = self.websites[indexPath.row];
-    ZQCollectRequest *r = [ZQCollectRequest requestWithWebsiteTitle:model.title url:model.url];
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return self.from == ZQSearchActionFromTypeCommend;
+}
 
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.from == ZQSearchActionFromTypeCollect) {
+        return;
+    }
+    ZQWebsiteModel *model = self.websites[indexPath.row];
+    ZQAddCommendRequest *r = [ZQAddCommendRequest requestWithWebsiteId:model.identifier];
     [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
         if (r.resultCode == 1) {
             [self toast:@"添加成功"];
@@ -71,13 +93,17 @@
 
 
 - (nullable NSString *)tableView:(UITableView *)tableView titleForDeleteConfirmationButtonForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return @"收藏";
+    if (self.from == ZQSearchActionFromTypeCollect) {
+        return nil;
+    } else {
+        return @"收藏";
+    }
 }
 
 
 #pragma mark - 准备工作
 - (void)ui {
-    self.title = @"搜索";
+    self.title = self.keyword;
     [self.view addSubview:self.tb];
     [self.tb mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.bottom.equalTo(self.view);
@@ -85,26 +111,34 @@
 }
 
 - (void)data {
-    ZQSimplePostRequest *r = [ZQSimplePostRequest new];
-    r.url = @"Collectphone/selCollect";
-    r.arguments = @{
-        @"sign":ZQStatusDB.signCode?:@"",
-        @"selName":self.keyword?:@""
-    };
-    [self showLoading];
-    [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
-        [self hideLoading];
-        if (r.resultCode == 1) {
-            NSArray *arr = [NSArray modelArrayWithClass:ZQWebsiteModel.class json:r.responseJSONObject[@"list"]];
-            self.websites = arr;
-            [self.tb reloadData];
-        } else {
-            [self toast:r.errorMessage];
-        }
-    } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
-        [self hideLoading];
-        [self toast:@"网络错误"];
-    }];
+    if (self.from == ZQSearchActionFromTypeCollect) {
+        NSArray <ZQWebsiteModel *> *websites = self.websites;
+        self.websites = [[websites.rac_sequence filter:^BOOL(ZQWebsiteModel *value) {
+            return [value.title containsString:self.keyword];
+        }] array];
+        [self.tb reloadData];
+    } else {
+        ZQSimplePostRequest *r = [ZQSimplePostRequest new];
+        r.url = @"Recommend/selWenList";
+        r.arguments = @{
+            @"sign":ZQStatusDB.signCode?:@"",
+            @"selName":self.keyword?:@""
+        };
+        [self showLoading];
+        [r startWithCompletionBlockWithSuccess:^(__kindof YTKBaseRequest * _Nonnull request) {
+            [self hideLoading];
+            if (r.resultCode == 1) {
+                NSArray *arr = [NSArray modelArrayWithClass:ZQWebsiteModel.class json:r.responseJSONObject[@"list"]];
+                self.websites = arr;
+                [self.tb reloadData];
+            } else {
+                [self toast:r.errorMessage];
+            }
+        } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
+            [self hideLoading];
+            [self toast:@"网络错误"];
+        }];
+    }
 }
 
 
