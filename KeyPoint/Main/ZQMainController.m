@@ -36,6 +36,7 @@
     [super viewDidLoad];
     [self ui];
     [self bind];
+    [self checkNewVersion];
 }
 
 #pragma mark - 业务逻辑
@@ -114,7 +115,39 @@
             [self.view layoutIfNeeded];
         }];
     }];
-    
+}
+
+- (void)checkNewVersion {
+    ZQSimpleGetRequest *r = [ZQSimpleGetRequest new];
+    r.url = @"User/versions";
+    [r startWithCompletionBlockWithSuccess:^(__kindof ZQSimpleGetRequest * _Nonnull request) {
+        if (request.resultCode != 1) {
+            return;
+        }
+        NSString *latestVersion = [NSString stringWithFormat:@"%@", request.responseJSONObject[@"version"]];
+        NSString *currentVerison = NSBundle.mainBundle.infoDictionary[@"CFBundleShortVersionString"];
+        
+        BOOL isVersionEqual = [currentVerison isEqualToString:latestVersion];
+        if (isVersionEqual) {
+            return;
+        }
+        UIAlertController *vc = [UIAlertController alertControllerWithTitle:@"提示" message:@"有新的版本可以更新" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *confirm = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            NSURL *url = [NSURL URLWithString:@"https://apps.apple.com/cn/app/tvtvc/id1523479858"];
+            if ([[UIApplication sharedApplication] canOpenURL:url]) {
+                [[UIApplication sharedApplication] openURL:url];
+            }
+        }];
+        
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {}];
+        
+        [vc addAction:confirm];
+        [vc addAction:cancel];
+        
+        [self presentViewController:vc animated:YES completion:nil];
+    } failure:^(__kindof YTKBaseRequest * _Nonnull request) {
+        
+    }];
 }
 
 - (void)search {

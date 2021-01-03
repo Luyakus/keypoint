@@ -69,7 +69,7 @@
         UILabel *l = [UILabel new];
         l.font = [UIFont systemFontOfSize:15];
         l.numberOfLines = 0;
-        l.textColor = [UIColor colorWithRGB:0x333333];
+        l.textColor = [UIColor systemBlueColor];
         _title = l;
         l;
     });
